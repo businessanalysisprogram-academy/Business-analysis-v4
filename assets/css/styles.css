@@ -761,10 +761,15 @@ section[id],article[id]{scroll-margin-top:96px}
   .nav-links,.nav-actions .btn{display:none}
   .nav-burger{display:block}
   .sc-text{display:none}
-  .sticky-cta{justify-content:center}
-  .sc-actions{width:100%;justify-content:center}
-  .sc-actions .btn{flex:1}
-  body{padding-bottom:76px}
+  .sticky-cta{justify-content:center;gap:8px}
+  .sc-actions{width:100%;gap:8px}
+  .sticky-cta .btn{padding-left:14px;padding-right:14px}
+  .sc-actions .js-consult{flex:0 1 auto;white-space:nowrap}   /* Free consult sizes to its text */
+  .sc-enroll{flex:1 1 auto;min-width:0}                        /* Enroll takes the remaining width */
+  .sc-enroll .se-main{font-size:.86rem}
+  .sc-enroll .se-sub{font-size:.6rem;gap:5px}
+  .wa-float{bottom:96px}                                       /* keep WhatsApp above the bar */
+  body{padding-bottom:84px}
 }
 @media(max-width:560px){
   .hero{padding-top:108px}
