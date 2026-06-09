@@ -511,21 +511,35 @@ const LEADS_ENDPOINT  = "https://script.google.com/macros/s/AKfycbyG4p-dfOfJP7aT
     ov.addEventListener("click", (e) => { if (e.target === ov) closeOverlay(ov); });
   });
 
-  /* ---------- sticky CTA after hero ---------- */
-  const sticky = $("#stickyCta"), hero = $(".hero");
-  if (sticky && hero) {
-    const sIO = new IntersectionObserver((e) => sticky.classList.toggle("show", !e[0].isIntersecting), { threshold: 0 });
-    sIO.observe(hero);
-  }
+  /* ---------- sticky CTA — visible from the start ---------- */
+  const sticky = $("#stickyCta");
+  if (sticky) sticky.classList.add("show");
 
-  /* ---------- exit intent (desktop, once per session) ---------- */
-  if (fine && exitOv && !sessionStorage.getItem("baExit")) {
+  /* ---------- exit intent — once per session ---------- */
+  const showExit = (trigger) => {
+    if (!exitOv || sessionStorage.getItem("baExit") || $(".overlay.open")) return;
+    sessionStorage.setItem("baExit", "1");
+    openOverlay(exitOv);
+    track("exit_intent_shown", { trigger });
+  };
+
+  // Desktop: cursor leaves the top of the viewport
+  if (fine && exitOv) {
     document.addEventListener("mouseout", (e) => {
-      if (e.clientY <= 0 && !$(".overlay.open")) {
-        sessionStorage.setItem("baExit", "1");
-        openOverlay(exitOv);
-        track("exit_intent_shown");
-      }
+      if (e.clientY <= 0) showExit("desktop");
     });
   }
+
+  // Mobile/touch: no mouseout — trigger when the user scrolls back toward the
+  // top after engaging (a "leaving" signal), with a time fallback.
+  if (!fine && exitOv) {
+    let armed = false;
+    addEventListener("scroll", () => {
+      if (scrollY > 800) armed = true;
+      else if (armed && scrollY < 200) showExit("mobile-scrollup");
+    }, { passive: true });
+  }
+
+  // Primary trigger (all devices): show the offer shortly after open, once per session.
+  if (exitOv) setTimeout(() => showExit("auto-6s"), 6000);
 })();
