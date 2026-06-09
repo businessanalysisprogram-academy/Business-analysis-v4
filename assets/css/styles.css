@@ -762,12 +762,12 @@ section[id],article[id]{scroll-margin-top:96px}
   .nav-burger{display:block}
   .sc-text{display:none}
   .sticky-cta{justify-content:center;gap:8px}
-  .sc-actions{width:100%;gap:8px}
+  .sc-actions{width:100%;gap:8px;justify-content:center}
   .sticky-cta .btn{padding-left:14px;padding-right:14px}
   .sc-actions .js-consult{flex:0 1 auto;white-space:nowrap}   /* Free consult sizes to its text */
-  .sc-enroll{flex:1 1 auto;min-width:0}                        /* Enroll takes the remaining width */
-  .sc-enroll .se-main{font-size:.86rem}
-  .sc-enroll .se-sub{font-size:.6rem;gap:5px}
+  .sc-enroll{flex:0 1 auto;min-width:0;padding-top:6px;padding-bottom:6px}  /* Enroll sizes to its content */
+  .sc-enroll .se-main{font-size:.82rem}
+  .sc-enroll .se-sub{font-size:.58rem;gap:5px}
   .wa-float{bottom:96px}                                       /* keep WhatsApp above the bar */
   body{padding-bottom:84px}
 }

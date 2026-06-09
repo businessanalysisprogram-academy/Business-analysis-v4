@@ -511,9 +511,13 @@ const LEADS_ENDPOINT  = "https://script.google.com/macros/s/AKfycbyG4p-dfOfJP7aT
     ov.addEventListener("click", (e) => { if (e.target === ov) closeOverlay(ov); });
   });
 
-  /* ---------- sticky CTA — visible from the start ---------- */
+  /* ---------- sticky CTA — appears after scrolling (~3rd section) ---------- */
   const sticky = $("#stickyCta");
-  if (sticky) sticky.classList.add("show");
+  if (sticky) {
+    const toggleSticky = () => sticky.classList.toggle("show", scrollY > innerHeight * 1.5);
+    toggleSticky();
+    addEventListener("scroll", toggleSticky, { passive: true });
+  }
 
   /* ---------- exit intent — once per session ---------- */
   const showExit = (trigger) => {
