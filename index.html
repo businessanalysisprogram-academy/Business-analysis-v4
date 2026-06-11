@@ -1003,12 +1003,9 @@
       <div class="form-ok" id="applyOk">
         <div class="ok-ico"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div>
         <h3>🎉 Details Received!</h3>
-        <p>Complete your enrollment below to confirm your seat — or our team will reach out shortly.</p>
-        <div class="enroll-pay">
-          <!-- ⚙️ RAZORPAY PAYMENT BUTTON
-               1) Razorpay Dashboard → Payments → Payment Buttons → create one (amount ₹5,999).
-               2) Copy its ID (looks like pl_XXXXXXXXXXXXXX) and replace it below. -->
-          <form><script src="https://checkout.razorpay.com/v1/payment-button.js" data-payment_button_id="pl_XXXXXXXXXXXXXX" async></script></form>
+        <p>Our team will reach out shortly to confirm your seat and next steps.</p>
+        <!-- Razorpay pay button is injected here ONLY when RAZORPAY_BUTTON_ID is set in assets/js/main.js -->
+        <div class="enroll-pay" id="enrollPay" hidden>
           <p class="ep-note">Secure payment via Razorpay · UPI, cards &amp; netbanking</p>
         </div>
       </div>

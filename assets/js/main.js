@@ -4,6 +4,10 @@
    ============================================================ */
 const WHATSAPP_NUMBER = "918088434442";           // intl format, no "+"
 const CONTACT_EMAIL   = "hello@businessanalysis.in";
+// ⚙️ Razorpay Payment Button ID (Dashboard → Payments → Payment Buttons).
+// Leave "" to disable payment. Set it (e.g. "pl_ABC123") and a secure pay
+// button appears on the enrollment success screen — no popup while empty.
+const RAZORPAY_BUTTON_ID = "";
 // ⚙️ Paste your Google Apps Script web-app URL here to save leads to a Google Sheet.
 // Leave "" until deployed — the form still works (WhatsApp/email) without it. See apps-script.gs.
 const LEADS_ENDPOINT  = "https://script.google.com/macros/s/AKfycbyG4p-dfOfJP7aT78Rb-8dgTXgQX8CTgp8kCFfFeg7HDLZq0sbTFpYFwRiF6IrLjm5I9g/exec";
@@ -418,6 +422,21 @@ const LEADS_ENDPOINT  = "https://script.google.com/macros/s/AKfycbyG4p-dfOfJP7aT
       if (body) body.style.display = "none";
       okEl.classList.add("show");              // success state
       track(cfg.event, { source: cfg.source }); // GA4 conversion event
+      // enrollment → show Razorpay pay button (only if a real button ID is configured)
+      if (form.id === "applyForm" && RAZORPAY_BUTTON_ID) {
+        const host = okEl.querySelector("#enrollPay");
+        if (host && !host.dataset.loaded) {
+          host.dataset.loaded = "1";
+          const f = document.createElement("form");
+          const s = document.createElement("script");
+          s.src = "https://checkout.razorpay.com/v1/payment-button.js";
+          s.async = true;
+          s.setAttribute("data-payment_button_id", RAZORPAY_BUTTON_ID);
+          f.appendChild(s);
+          host.insertBefore(f, host.firstChild);
+          host.hidden = false;
+        }
+      }
     } catch (err) {
       setLoading(btn, false);
       showFormError(form, "Sorry — we couldn’t submit your details. Please check your connection and try again.");
